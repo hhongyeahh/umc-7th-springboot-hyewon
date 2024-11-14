@@ -2,6 +2,8 @@ package com.study.repository.MemberMissionRepository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQueryFactory;
+import com.study.domain.Member;
+import com.study.domain.Mission;
 import com.study.domain.QMember;
 import com.study.domain.enums.MissionStatus;
 import com.study.domain.mapping.MemberMission;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberMissionRepositoryImpl implements MemberMissionRepositoryCustom {
     private final JPQLQueryFactory jpqlQueryFactory;
+
     private final QMemberMission memberMission = QMemberMission.memberMission;
     private final QMember member = QMember.member;
 
@@ -36,6 +39,16 @@ public class MemberMissionRepositoryImpl implements MemberMissionRepositoryCusto
                 .where(predicate)
                 .fetch();
 
+    }
+    @Override
+    public MemberMission findByMemberAndMission(Member member, Mission mission) {
+        return jpqlQueryFactory
+                .selectFrom(memberMission)
+                .where(
+                        memberMission.member.eq(member),
+                        memberMission.mission.eq(mission)
+                )
+                .fetchOne();
     }
 
 
