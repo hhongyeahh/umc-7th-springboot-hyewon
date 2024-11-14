@@ -1,4 +1,4 @@
-package com.study.web.dto;
+package com.study.dto;
 
 import com.study.domain.Review;
 import lombok.AllArgsConstructor;
