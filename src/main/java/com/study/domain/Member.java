@@ -8,7 +8,11 @@ import com.study.domain.mapping.MemberAgree;
 import com.study.domain.mapping.MemberMission;
 import com.study.domain.mapping.MemberPrefer;
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.XmlType;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +20,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@DynamicUpdate
+@DynamicInsert
 @Builder
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -29,6 +35,10 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    Integer birthYear;
+    Integer birthMonth;
+    Integer birthDay;
 
     @Column(nullable = false, length = 40)
     private String address;
@@ -45,9 +55,10 @@ public class Member extends BaseEntity {
 
     private LocalDate inactiveDate;
 
-    @Column(nullable = false, length = 50)
+    //@Column(nullable = false, length = 50)
     private String email;
 
+    @ColumnDefault("0")
     private Integer point;
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL})
