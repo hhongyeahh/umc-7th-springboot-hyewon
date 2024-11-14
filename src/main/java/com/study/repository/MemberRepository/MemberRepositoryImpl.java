@@ -1,13 +1,10 @@
 package com.study.repository.MemberRepository;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.jpa.JPQLQueryFactory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.study.domain.Member;
-import com.study.domain.QMember;
-import com.study.domain.QReview;
-import com.study.domain.Review;
-import com.study.web.dto.MemberMyPageDto;
+import com.study.domain.*;
+import com.study.domain.mapping.MemberMission;
+import com.study.domain.mapping.QMemberMission;
+import com.study.dto.MemberMyPageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +16,6 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory queryFactory;
     private final QMember member = QMember.member;
     private final QReview review = QReview.review;
-
     @Override
     public MemberMyPageDto findMemberMyPageById(Long memberId) {
         Member memberData = queryFactory
@@ -43,4 +39,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         }
         return null;
     }
+
+
+
 }
