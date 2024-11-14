@@ -30,4 +30,7 @@ public abstract class BaseEntity {
     public LocalDateTime getUpdatedAt() {
         return this.updatedAt;
     }
+    protected void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
