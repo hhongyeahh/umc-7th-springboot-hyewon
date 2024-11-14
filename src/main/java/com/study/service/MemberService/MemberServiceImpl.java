@@ -1,7 +1,7 @@
 package com.study.service.MemberService;
 
 import com.study.repository.MemberRepository.MemberRepository;
-import com.study.web.dto.MemberMyPageDto;
+import com.study.dto.MemberMyPageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
