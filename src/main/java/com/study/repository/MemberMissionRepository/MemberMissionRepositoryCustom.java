@@ -13,6 +13,10 @@ import java.util.Optional;
 
 public interface MemberMissionRepositoryCustom {
     List<MemberMission> dynamicQueryWithBooleanBuilder(Long memberId, MissionStatus missionStatus);
+
     Page<MemberMission> findAllByMemberAndChallengingMissionStatus(Long memberId, Pageable pageable);
+
     MemberMission findByMemberAndMission(Member member, Mission mission);
+
+    void updateMissionStatusToComplete(List<MemberMission> missions);
 }

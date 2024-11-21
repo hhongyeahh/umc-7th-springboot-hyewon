@@ -8,6 +8,12 @@ import java.util.List;
 
 public class MemberMissionConverter {
 
+    public static MemberMissionResponseDTO. MemberMissionStatusResultDto updateMemberMissionStatusDTO(MemberMission memberMission){
+        return MemberMissionResponseDTO.MemberMissionStatusResultDto.builder()
+                .updatedAt(memberMission.getUpdatedAt())
+                .build();
+    }
+
     public static MemberMissionResponseDTO.MemberMissionPreviewDTO memberMissionPreviewDTO(MemberMission memberMission){
         return MemberMissionResponseDTO.MemberMissionPreviewDTO.builder()
                 .storeName(memberMission.getMission().getStore().getName())
