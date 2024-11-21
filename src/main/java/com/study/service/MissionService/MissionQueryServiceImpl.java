@@ -5,6 +5,7 @@ import com.study.domain.Store;
 import com.study.repository.MissionRepository.MissionRepository;
 import com.study.repository.StoreRepository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -38,6 +40,9 @@ public class MissionQueryServiceImpl implements MissionQueryService {
 
     @Override
     public Page<Mission> getMissionList(Long StoreId, Integer page) {
+        log.info("Page passed to repository: {}", page); // 디버깅 로그
+
+
         Store store = storeRepository.findById(StoreId).get();
         Page<Mission> missionPage = missionRepository.findAllByStore(store, PageRequest.of(page,10));
         return missionPage;
