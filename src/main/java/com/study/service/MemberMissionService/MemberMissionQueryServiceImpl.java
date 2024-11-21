@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,5 +41,16 @@ public class MemberMissionQueryServiceImpl implements MemberMissionQueryService 
     public Page<MemberMission> getChallengingMissionList(Long memberId, Integer page) {
         Page<MemberMission> MemberMissionPage = memberMissionRepository.findAllByMemberAndChallengingMissionStatus(memberId, PageRequest.of(page,10));
         return MemberMissionPage;
+    }
+
+    @Transactional
+    @Override
+    public Page<MemberMission> findAndUpdateChallengingMissions(Long memberId, Integer page) {
+        // 1. 조회
+        Page<MemberMission> memberMissions = memberMissionRepository.findAllByMemberAndChallengingMissionStatus(memberId, PageRequest.of(page,10));
+        // 2. 업데이트
+        memberMissionRepository.updateMissionStatusToComplete(memberMissions.getContent());
+
+        return memberMissions;
     }
 }

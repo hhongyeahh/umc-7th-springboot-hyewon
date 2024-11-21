@@ -24,7 +24,7 @@ public class MemberMissionCommandServiceImpl implements MemberMissionCommandServ
     private final MemberMissionRepository memberMissionRepository;
     @Override
     @Transactional
-    public MemberMission updateMemberMissionStatus(MemberMissionRequestDTO.MemberMissionStatusDto request,
+    public MemberMission updateMemberMissionStatus(
                                                    Long memberId,
                                                    Long missionId) {
         // Member와 Mission 조회
@@ -35,11 +35,11 @@ public class MemberMissionCommandServiceImpl implements MemberMissionCommandServ
 
         // 기존 MemberMission 조회 및 상태 업데이트
         MemberMission memberMission = memberMissionRepository.findByMemberAndMission(member, mission);
-        if(memberMission.getStatus() == MissionStatus.CHALLENGING) {
-            throw new MissionHandler(ErrorStatus.MISSION_STATUS_CHALLENGING);
+        if(memberMission.getStatus() == MissionStatus.COMPLETE) {
+            throw new MissionHandler(ErrorStatus.MISSION_STATUS_COMPLETE);
         }
 
-        memberMission.setStatus(MissionStatus.valueOf(request.getStatus()));
+        memberMission.setStatus(MissionStatus.COMPLETE);
         return memberMissionRepository.save(memberMission);
     }
 }

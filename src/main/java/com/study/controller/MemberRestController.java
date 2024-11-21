@@ -45,22 +45,26 @@ public class MemberRestController {
         Member member = memberCommandService.joinMember(request);
         return ApiResponse.onSuccess(MemberConverter.toJoinResultDto(member));
     }
-    @PostMapping("/{memberId}/missions/{missionId}/")
-    @Operation(summary = "멤버 미션 상태 수정 API", description = "멤버와 미션의 ID를 둘 다 받아서, 임의로 미션의 상태를 수정할 수 있음")
+    @PatchMapping("/{memberId}/missions/{missionId}/")
+    @Operation(summary = "진행 중 미션 진행 완료로 단건 수정 API", description = "진행 중 미션의 memberID, missionID를 받아서, 진행완료로 상태 수정")
     public ApiResponse<MemberMissionResponseDTO.MemberMissionStatusResultDto> updateMemberMissionStatus(
-            @RequestBody @Valid MemberMissionRequestDTO.MemberMissionStatusDto request,
             @PathVariable Long memberId,
             @PathVariable Long missionId) {
 
-        MemberMission memberMission = memberMissionCommandService.updateMemberMissionStatus(request, memberId, missionId);
-        MemberMissionResponseDTO.MemberMissionStatusResultDto responseDto = MemberMissionResponseDTO.MemberMissionStatusResultDto.builder()
-                .updatedAt(memberMission.getUpdatedAt())
-                .build();
-
-        return ApiResponse.onSuccess(responseDto);
+        MemberMission memberMission = memberMissionCommandService.updateMemberMissionStatus(memberId, missionId);
+        return ApiResponse.onSuccess(MemberMissionConverter.updateMemberMissionStatusDTO(memberMission));
     }
 
+    @PatchMapping("/{memberId}/missions")
+    @Operation(summary = "진행 중 미션 진행 완료로 전체 수정 API", description = "진행 중 미션의 memberID, missionID를 받아서, 진행완료로 상태 수정")
+    public ApiResponse<MemberMissionResponseDTO.MemberMissionPreviewListDTO> updateMemberMissionsStatus(
+            @ExistMember
+            @PathVariable(name = "memberId") Long memberId,
+            @RequestParam(name = "page") Integer page) {
+        Page<MemberMission> memberMissionList = memberMissionQueryService.findAndUpdateChallengingMissions(memberId, page);
 
+        return ApiResponse.onSuccess(MemberMissionConverter.memberMissionPreviewListDTO(memberMissionList));
+    }
 
     @GetMapping("/{memberId}/missions")
     @Operation(summary = "진행 중인 리스트 조회 API", description = "내가 진행중인 미션 들을 조회하는 API이며, 페이징을 포함. query string으로 page 번호를 주세요.")

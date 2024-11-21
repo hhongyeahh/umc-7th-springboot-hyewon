@@ -1,6 +1,5 @@
 package com.study.dto.response;
 
-import com.study.domain.Mission;
 import com.study.domain.enums.MissionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

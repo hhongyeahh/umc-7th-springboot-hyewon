@@ -8,6 +8,7 @@ import com.study.domain.QMember;
 import com.study.domain.enums.MissionStatus;
 import com.study.domain.mapping.MemberMission;
 import com.study.domain.mapping.QMemberMission;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -61,6 +62,8 @@ public class MemberMissionRepositoryImpl implements MemberMissionRepositoryCusto
                 .limit(pageable.getPageSize())
                 .fetch();
 
+
+
         // 전체 데이터 개수 조회 (Null 처리)
         long total = Optional.ofNullable(
                 jpqlQueryFactory
@@ -74,6 +77,14 @@ public class MemberMissionRepositoryImpl implements MemberMissionRepositoryCusto
         return new PageImpl<>(content, pageable, total);
     }
 
+    @Transactional
+    @Override
+    public void updateMissionStatusToComplete(List<MemberMission> missions) {
+        missions.forEach(memberMission -> memberMission.setStatus(MissionStatus.COMPLETE));
+    }
+
+
+
 
     @Override
     public MemberMission findByMemberAndMission(Member member, Mission mission) {
@@ -85,6 +96,4 @@ public class MemberMissionRepositoryImpl implements MemberMissionRepositoryCusto
                 )
                 .fetchOne();
     }
-
-
 }
