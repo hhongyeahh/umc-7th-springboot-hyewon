@@ -20,7 +20,6 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class StoreQueryServiceImpl implements StoreQueryService{
     private final StoreRepository storeRepository;
-    private final ReviewRepository reviewRepository;
 
     @Override
     public Optional<Store> findStore(Long id) {
@@ -33,6 +32,11 @@ public class StoreQueryServiceImpl implements StoreQueryService{
         filteredStores.forEach(store -> System.out.println("Store: "+store));
 
         return filteredStores;
+    }
+
+    @Override
+    public Boolean existsById(Long storeId) {
+        return storeRepository.existsById(storeId);
     }
 
 

@@ -6,6 +6,7 @@ import com.study.repository.ReviewRepository.ReviewRepository;
 import com.study.repository.ReviewRepository.ReviewRepositoryCustom;
 import com.study.repository.StoreRepository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,8 +37,11 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
         return reviewsPage;
     }
 
+
     @Override
     public Page<Review> getReviewList(Long StoreId, Integer page) {
+        log.info("Page passed to repository: {}", page); // 디버깅 로그
+
         Store store = storeRepository.findById(StoreId).get();
         Page<Review> reviewPage = reviewRepository.findAllByStore(store, PageRequest.of(page,10));
         return reviewPage;

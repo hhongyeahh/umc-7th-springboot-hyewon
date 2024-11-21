@@ -27,7 +27,11 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_MISSION_NOT_FOUND(HttpStatus.NOT_FOUND,"MEMBER MISSION 4001", "해당 멤버 미션이 없습니다."),
     MISSION_STATUS_COMPLETE(HttpStatus.BAD_REQUEST,"MEMBER MISSION 4002", "미션이 진행 완료 상태 입니다."),
 
+    INVALID_PAGE(HttpStatus.BAD_REQUEST, "PAGE 4001", "잘못된 페이지 번호 입니다."),
+
+
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST,"TEMP4001", "이거는 테스트");
+
 
     private final HttpStatus httpStatus;
     private final String code;
