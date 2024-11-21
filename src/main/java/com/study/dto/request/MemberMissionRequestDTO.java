@@ -5,7 +5,7 @@ import lombok.Getter;
 
 public class MemberMissionRequestDTO {
     @Getter
-    public static class updateMemberMissionStatusDto {
+    public static class MemberMissionStatusDto {
         @NotNull
         String status;
     }

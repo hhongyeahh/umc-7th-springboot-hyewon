@@ -5,7 +5,6 @@ import com.study.apiPayload.code.exception.handler.MissionHandler;
 import com.study.apiPayload.code.status.ErrorStatus;
 import com.study.domain.Member;
 import com.study.domain.Mission;
-import com.study.domain.enums.MemberStatus;
 import com.study.domain.enums.MissionStatus;
 import com.study.domain.mapping.MemberMission;
 import com.study.dto.request.MemberMissionRequestDTO;
@@ -25,7 +24,7 @@ public class MemberMissionCommandServiceImpl implements MemberMissionCommandServ
     private final MemberMissionRepository memberMissionRepository;
     @Override
     @Transactional
-    public MemberMission updateMemberMissionStatus(MemberMissionRequestDTO.updateMemberMissionStatusDto request,
+    public MemberMission updateMemberMissionStatus(MemberMissionRequestDTO.MemberMissionStatusDto request,
                                                    Long memberId,
                                                    Long missionId) {
         // Member와 Mission 조회
