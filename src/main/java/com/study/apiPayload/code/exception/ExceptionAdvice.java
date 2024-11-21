@@ -26,7 +26,6 @@ import java.util.Optional;
 @RestControllerAdvice(annotations = {RestController.class})
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
-
     @ExceptionHandler
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
         String errorMessage = e.getConstraintViolations().stream()
@@ -116,4 +115,24 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 request
         );
     }
+
+    @ExceptionHandler(CustomValidationException.class)
+    public ResponseEntity<Object> handleCustomValidationException(CustomValidationException e, WebRequest request) {
+        ErrorReasonDTO errorReason = e.getErrorReasonHttpStatus(); // 에러 정보 가져오기
+
+        ApiResponse<Object> body = ApiResponse.onFailure(
+                errorReason.getCode(),
+                errorReason.getMessage(),
+                null
+        );
+
+        return handleExceptionInternal(
+                e,
+                body,
+                HttpHeaders.EMPTY,
+                errorReason.getHttpStatus(),
+                request
+        );
+    }
+
 }
