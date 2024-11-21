@@ -7,22 +7,15 @@ import com.study.converter.StoreConverter;
 import com.study.domain.Mission;
 import com.study.domain.Review;
 import com.study.domain.Store;
-import com.study.domain.mapping.MemberMission;
-import com.study.dto.request.MemberMissionRequestDTO;
-import com.study.dto.request.ReviewRequestDTO;
 import com.study.dto.request.StoreRequestDTO;
-import com.study.dto.response.MemberMissionResponseDTO;
 import com.study.dto.response.MissionResponseDTO;
 import com.study.dto.response.ReviewResponseDTO;
 import com.study.dto.response.StoreResponseDTO;
-import com.study.service.MemberMissionService.MemberMissionCommandService;
 import com.study.service.MissionService.MissionQueryService;
-import com.study.service.ReviewService.ReviewCommandService;
 import com.study.service.ReviewService.ReviewQueryService;
 import com.study.service.StoreService.StoreCommandService;
-import com.study.service.StoreService.StoreQueryService;
+import com.study.validation.annotation.CheckPage;
 import com.study.validation.annotation.ExistStore;
-import com.sun.source.doctree.SummaryTree;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -31,9 +24,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/stores/")
@@ -59,7 +54,12 @@ public class StoreRestController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
-    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getReviewList(@ExistStore @PathVariable(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getReviewList(
+            @ExistStore @PathVariable(name = "storeId") Long storeId,
+            @CheckPage Integer page){
+
+        log.info("Page received in controller (after transformation): {}", page); // 디버깅 로그
+
         Page<Review> reviewList = reviewQueryService.getReviewList(storeId, page);
         return ApiResponse.onSuccess(ReviewConverter.reviewPreViewListDTO(reviewList));
     }
@@ -75,7 +75,12 @@ public class StoreRestController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
-    public ApiResponse<MissionResponseDTO.MissionPreViewListDTO> getMissionList(@ExistStore @PathVariable(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<MissionResponseDTO.MissionPreViewListDTO> getMissionList(
+            @ExistStore @PathVariable(name = "storeId") Long storeId,
+            @CheckPage Integer page){
+
+        log.info("Page received in controller (after transformation): {}", page); // 디버깅 로그
+
         Page<Mission> missionList = missionQueryService.getMissionList(storeId, page);
         return ApiResponse.onSuccess(MissionConverter.missionPreViewListDTO(missionList));
     }

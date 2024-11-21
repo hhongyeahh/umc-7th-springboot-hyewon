@@ -7,7 +7,6 @@ import com.study.converter.ReviewConverter;
 import com.study.domain.Member;
 import com.study.domain.Review;
 import com.study.domain.mapping.MemberMission;
-import com.study.dto.request.MemberMissionRequestDTO;
 import com.study.dto.request.MemberRequestDTO;
 import com.study.dto.request.ReviewRequestDTO;
 import com.study.dto.response.MemberMissionResponseDTO;
@@ -18,6 +17,7 @@ import com.study.service.MemberMissionService.MemberMissionQueryService;
 import com.study.service.MemberService.MemberCommandService;
 import com.study.service.MemberService.MemberQueryService;
 import com.study.service.ReviewService.ReviewCommandService;
+import com.study.validation.annotation.CheckPage;
 import com.study.validation.annotation.ExistMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -60,7 +60,7 @@ public class MemberRestController {
     public ApiResponse<MemberMissionResponseDTO.MemberMissionPreviewListDTO> updateMemberMissionsStatus(
             @ExistMember
             @PathVariable(name = "memberId") Long memberId,
-            @RequestParam(name = "page") Integer page) {
+            @CheckPage Integer page) {
         Page<MemberMission> memberMissionList = memberMissionQueryService.findAndUpdateChallengingMissions(memberId, page);
 
         return ApiResponse.onSuccess(MemberMissionConverter.memberMissionPreviewListDTO(memberMissionList));
@@ -77,7 +77,9 @@ public class MemberRestController {
     @Parameters({
             @Parameter(name = "memberId", description = "스프링 시큐리티 적용 전이라 path-variable 로 받아옴")
     })
-    public ApiResponse<MemberMissionResponseDTO.MemberMissionPreviewListDTO> getChallengingMissionList(@ExistMember @PathVariable(name = "memberId") Long memberId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<MemberMissionResponseDTO.MemberMissionPreviewListDTO> getChallengingMissionList(
+            @ExistMember @PathVariable(name = "memberId") Long memberId,
+            @CheckPage Integer page){
         Page<MemberMission> memberMissionList = memberMissionQueryService.getChallengingMissionList(memberId, page);
 
         return ApiResponse.onSuccess(MemberMissionConverter.memberMissionPreviewListDTO(memberMissionList));
@@ -103,7 +105,9 @@ public class MemberRestController {
     @Parameters({
             @Parameter(name = "memberId", description = "스프링 시큐리티 적용 전이라 path-variable 로 받아옴")
     })
-    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getReviewList(@ExistMember @PathVariable(name = "memberId") Long memberId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getReviewList(
+            @ExistMember @PathVariable(name = "memberId") Long memberId,
+            @CheckPage Integer page){
         Page<Review> reviewList = memberQueryService.getReviewList(memberId, page);
         return ApiResponse.onSuccess(ReviewConverter.reviewPreViewListDTO(reviewList));
     }
