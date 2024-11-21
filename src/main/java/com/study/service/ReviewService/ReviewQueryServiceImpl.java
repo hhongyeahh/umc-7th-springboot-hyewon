@@ -1,8 +1,10 @@
 package com.study.service.ReviewService;
 
 import com.study.domain.Review;
+import com.study.domain.Store;
 import com.study.repository.ReviewRepository.ReviewRepository;
 import com.study.repository.ReviewRepository.ReviewRepositoryCustom;
+import com.study.repository.StoreRepository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ReviewQueryServiceImpl implements ReviewQueryService {
     private final ReviewRepository reviewRepository;
+    private final StoreRepository storeRepository;
 
     @Override
     public Page<Review> findReviewsByStoreName(String storeName, Integer page, Integer size) {
@@ -30,5 +33,12 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
         reviewsPage.getContent().forEach(System.out::println);
 
         return reviewsPage;
+    }
+
+    @Override
+    public Page<Review> getReviewList(Long StoreId, Integer page) {
+        Store store = storeRepository.findById(StoreId).get();
+        Page<Review> reviewPage = reviewRepository.findAllByStore(store, PageRequest.of(page,10));
+        return reviewPage;
     }
 }
