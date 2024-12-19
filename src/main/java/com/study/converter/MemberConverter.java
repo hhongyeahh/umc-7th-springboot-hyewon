@@ -35,6 +35,9 @@ public class MemberConverter {
                 .birthMonth(request.getBirthMonth())
                 .birthDay(request.getBirthDay())
                 .memberPreferList(new ArrayList<>())
+                .email(request.getEmail()) //보안 강화 위해 새 필드 추가
+                .password(request.getPassword()) //보안 강화 위해 새 필드 추가
+                .role(request.getRole()) //보안 강화 위해 새 필드 추가
                 .build();
     }
 }
