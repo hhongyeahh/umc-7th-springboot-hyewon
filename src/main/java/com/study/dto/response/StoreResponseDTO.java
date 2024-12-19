@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class StoreResponseDTO {
@@ -17,4 +18,5 @@ public class StoreResponseDTO {
         Long storeId;
         LocalDateTime createdAt;
     }
+
 }

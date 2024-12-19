@@ -3,6 +3,7 @@ package com.study.domain;
 import com.study.domain.common.BaseEntity;
 import com.study.domain.enums.Gender;
 import com.study.domain.enums.MemberStatus;
+import com.study.domain.enums.Role;
 import com.study.domain.enums.SocialType;
 import com.study.domain.mapping.MemberAgree;
 import com.study.domain.mapping.MemberMission;
@@ -55,11 +56,22 @@ public class Member extends BaseEntity {
 
     private LocalDate inactiveDate;
 
+    @ColumnDefault("0")
+    private Integer point;
+
     //@Column(nullable = false, length = 50)
     private String email;
 
-    @ColumnDefault("0")
-    private Integer point;
+    //spring security 보안 관련 필드 및 비밀번호 설정 함수 추가
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public void encodePassword(String password){
+        this.password = password;
+    }
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL})
     private List<MemberAgree> memberAgreeList = new ArrayList<>();
