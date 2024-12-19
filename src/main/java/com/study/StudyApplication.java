@@ -2,7 +2,7 @@ package com.study;
 
 import com.study.domain.enums.MissionStatus;
 import com.study.service.MemberMissionService.MemberMissionQueryService;
-import com.study.service.MemberService.MemberService;
+import com.study.service.MemberService.MemberQueryService;
 import com.study.service.MissionService.MissionQueryService;
 import com.study.service.ReviewService.ReviewQueryService;
 import com.study.service.StoreService.StoreQueryService;
@@ -26,7 +26,7 @@ class StudyApplication {
         return args -> {
             StoreQueryService storeService = context.getBean(StoreQueryService.class);
             MemberMissionQueryService memberMissionQueryService = context.getBean(MemberMissionQueryService.class);
-            MemberService memberService = context.getBean(MemberService.class);
+            MemberQueryService memberQueryService = context.getBean(MemberQueryService.class);
             MissionQueryService missionQueryService = context.getBean(MissionQueryService.class);
             ReviewQueryService reviewQueryService = context.getBean(ReviewQueryService.class);
 
@@ -39,7 +39,7 @@ class StudyApplication {
             // 각 쿼리 호출 메서드 실행
             executeFindStoresByNameAndScore(storeService, name, score);
             executeFindMemberMissionsByStatus(memberMissionQueryService, memberId, MissionStatus.CHALLENGING);
-            executeFindMemberMyPage(memberService, memberId);
+            executeFindMemberMyPage(memberQueryService, memberId);
             executeFindMissionByRegion(missionQueryService, regionName);
             executeFindReviewByStoreName(reviewQueryService, name);
         };
@@ -65,11 +65,11 @@ class StudyApplication {
         System.out.println("\n");
     }
 
-    private void executeFindMemberMyPage(MemberService memberService, Long memberId) {
+    private void executeFindMemberMyPage(MemberQueryService memberQueryService, Long memberId) {
         System.out.println("Executing findMemberMyPageById with parameters:");
         System.out.println("memberId: " + memberId);
 
-        memberService.getMemberMyPage(memberId);
+        memberQueryService.getMemberMyPage(memberId);
         System.out.println("\n");
     }
 

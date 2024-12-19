@@ -24,7 +24,7 @@ public class MemberViewController {
                              Model model){
         if(bindingResult.hasErrors()){
             //뷰에 데이터 바인딩 실패 시 -> signup 페이지 유지
-            return "singup";
+            return "signup";
         }
         try{
             memberCommandService.joinMember(request);
